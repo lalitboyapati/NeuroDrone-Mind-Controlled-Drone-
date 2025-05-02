@@ -2,7 +2,7 @@ import serial
 import time
 
 # Connect to Arduino
-arduino = serial.Serial('COM4', 9600)  # Replace with your port
+arduino = serial.Serial('COM4', 9600)  
 
 # Simulated EEG output
 eeg_expression = "blink"  # Could be 'wink', 'smile', etc.
