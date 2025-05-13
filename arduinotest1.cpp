@@ -10,32 +10,29 @@ const int IN4 = 7;
 String inputCommand = "";
 
 void setup() {
-  // Initialize motor pins
   pinMode(ENA, OUTPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
   pinMode(ENB, OUTPUT);
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
-
-  // Start Serial communication
   Serial.begin(9600);
 }
 
 void loop() {
   if (Serial.available() > 0) {
     inputCommand = Serial.readStringUntil('\n');
-    inputCommand.trim();  // Remove whitespace
+    inputCommand.trim();
 
-    // Map EMOTIV facial expressions to movement
-    if (inputCommand == "clench") {
-      moveForward();
-    } else if (inputCommand == "wink_left") {
+    // Expression-based command mapping
+    if (inputCommand == "clench_left_wink") {
       turnLeft();
-    } else if (inputCommand == "wink_right") {
+    } else if (inputCommand == "clench_right_wink") {
       turnRight();
+    } else if (inputCommand == "clench") {
+      moveForward();
     } else if (inputCommand == "neutral" || inputCommand == "smile") {
-      stopMotors();  // smile or neutral is treated as no motion
+      stopMotors();
     }
   }
 }
@@ -57,4 +54,23 @@ void turnLeft() {
   digitalWrite(IN2, HIGH);
 
   analogWrite(ENB, 150);
-  digitalWrite(IN
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void turnRight() {
+  analogWrite(ENA, 150);
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  analogWrite(ENB, 150);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void stopMotors() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+}
