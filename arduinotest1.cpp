@@ -25,16 +25,17 @@ void setup() {
 void loop() {
   if (Serial.available() > 0) {
     inputCommand = Serial.readStringUntil('\n');
-    inputCommand.trim();  // Clean whitespace
+    inputCommand.trim();  // Remove whitespace
 
-    if (inputCommand == "forward") {
+    // Map EMOTIV facial expressions to movement
+    if (inputCommand == "clench") {
       moveForward();
-    } else if (inputCommand == "left") {
+    } else if (inputCommand == "wink_left") {
       turnLeft();
-    } else if (inputCommand == "right") {
+    } else if (inputCommand == "wink_right") {
       turnRight();
-    } else if (inputCommand == "stop") {
-      stopMotors();
+    } else if (inputCommand == "neutral" || inputCommand == "smile") {
+      stopMotors();  // smile or neutral is treated as no motion
     }
   }
 }
@@ -56,23 +57,4 @@ void turnLeft() {
   digitalWrite(IN2, HIGH);
 
   analogWrite(ENB, 150);
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
-}
-
-void turnRight() {
-  analogWrite(ENA, 150);
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-
-  analogWrite(ENB, 150);
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
-}
-
-void stopMotors() {
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, LOW);
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, LOW);
-}
+  digitalWrite(IN
